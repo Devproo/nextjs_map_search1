@@ -2,11 +2,11 @@
 
 import { useMemo, useEffect, useState } from "react";
 import dynamic from "next/dynamic";
-import { BusinessListData, Business, CategoryListData } from "@/shared/Data";
+import { Driver, DriverListData } from "@/shared/Driver";
 
 type MapLibrary = "leaflet" | "google";
+type User = "user" | "driver";
 
-// 🔑 Accept search from parent
 export default function MapView({ search = "" }: { search: string }) {
   const [mapLib, setMapLib] = useState<MapLibrary>("leaflet");
   const [userLocation, setUserLocation] = useState<{
@@ -31,20 +31,15 @@ export default function MapView({ search = "" }: { search: string }) {
     }
   }, []);
 
-  // Filtering businesses by search
-  const filteredBusinesses = useMemo<Business[]>(() => {
-    // if (!search.trim()) return BusinessListData;
-    if (!search || !search.trim()) return BusinessListData;
+  // ✅ Filtering drivers by search
+  const filteredDrivers = useMemo<Driver[]>(() => {
+    if (!search || !search.trim()) return DriverListData;
 
     const q = search.toLowerCase();
-
-    return BusinessListData.filter((biz) => {
-      if (biz.name.toLowerCase().includes(q)) return true;
-      if (biz.categoryValue.toLowerCase().includes(q)) return true;
-
-      const cat = CategoryListData.find((c) => c.value === biz.categoryValue);
-      if (cat && cat.name.toLowerCase().includes(q)) return true;
-
+    return DriverListData.filter((driver) => {
+      if (driver.name.toLowerCase().includes(q)) return true;
+      if (driver.carModel.toLowerCase().includes(q)) return true;
+      if (driver.carType.toLowerCase().includes(q)) return true;
       return false;
     });
   }, [search]);
@@ -60,25 +55,20 @@ export default function MapView({ search = "" }: { search: string }) {
   });
 
   return (
-    <div className="p-4 space-y-4">
-      {/* Map container */}
-      <div className="bg-white rounded-lg p-4 shadow-md h-[600px] overflow-hidden">
-        <h2 className="text-lg font-bold mb-3">Map View ({mapLib})</h2>
+    <div className="p-4 space-y-4  ">
+      <div className="bg-white rounded-lg p-4 shadow-md h-[600px] overflow-hidden pb-20 ">
+        <h2 className="text-lg font-bold m-2 "> {mapLib} Map View </h2>
 
         {mapLib === "leaflet" ? (
-          <LeafletMap
-            businesses={filteredBusinesses}
-            userLocation={userLocation}
-          />
+          <LeafletMap drivers={filteredDrivers} userLocation={userLocation} />
         ) : (
           <GoogleMapComp
-            businesses={filteredBusinesses}
+            drivers={filteredDrivers}
             userLocation={userLocation}
           />
         )}
       </div>
 
-      {/* Map library selector */}
       <select
         value={mapLib}
         onChange={(e) => setMapLib(e.target.value as MapLibrary)}

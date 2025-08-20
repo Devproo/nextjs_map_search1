@@ -1,16 +1,16 @@
 "use client";
 
 import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
-import type { Business } from "@/shared/Data";
 import { useCallback, useRef } from "react";
+import { Driver } from "@/shared/Driver";
 
 interface GoogleMapProps {
-  businesses: Business[];
+  drivers: Driver[];
   userLocation?: { lat: number; lng: number };
 }
 
 export default function GoogleMapComp({
-  businesses,
+  drivers,
   userLocation,
 }: GoogleMapProps) {
   const mapRef = useRef<google.maps.Map | null>(null);
@@ -18,39 +18,34 @@ export default function GoogleMapComp({
   const onLoad = useCallback(
     (map: google.maps.Map) => {
       mapRef.current = map;
+      const bounds = new google.maps.LatLngBounds();
 
-      const bounds = new window.google.maps.LatLngBounds();
-      businesses.forEach((biz) =>
-        bounds.extend({ lat: biz.lat, lng: biz.lng })
-      );
-      if (userLocation) bounds.extend(userLocation);
+      [...drivers.map((d) => ({ lat: d.lat, lng: d.lng })), userLocation]
+        .filter(Boolean)
+        .forEach((pos) => bounds.extend(pos as google.maps.LatLngLiteral));
 
-      if (!bounds.isEmpty()) {
-        map.fitBounds(bounds);
-      }
+      if (!bounds.isEmpty()) map.fitBounds(bounds);
     },
-    [businesses, userLocation]
+    [drivers, userLocation]
   );
 
   return (
     <LoadScript googleMapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY!}>
       <GoogleMap
         onLoad={onLoad}
-        mapContainerStyle={{ height: "100%", width: "100%" }}
-        center={userLocation || { lat: 0, lng: 0 }}
+        mapContainerStyle={{ width: "100%", height: "100%" }}
+        center={userLocation ?? { lat: 0, lng: 0 }}
         zoom={2}
       >
-        {/* User marker */}
         {userLocation && (
           <Marker position={userLocation} title="Your Location" />
         )}
 
-        {/* Business markers */}
-        {businesses.map((biz) => (
+        {drivers.map((driver) => (
           <Marker
-            key={biz.id}
-            position={{ lat: biz.lat, lng: biz.lng }}
-            title={biz.name}
+            key={driver.id}
+            position={{ lat: driver.lat, lng: driver.lng }}
+            title={driver.name}
           />
         ))}
       </GoogleMap>
