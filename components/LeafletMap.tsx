@@ -3,8 +3,10 @@
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
-import { useEffect } from "react";
-import { Driver } from "@/shared/Driver";
+import { useEffect, useState } from "react";
+
+import { Category, Instance } from "@/shared/Categories";
+import { Filter } from "lucide-react";
 
 // Fix Leaflet default icon issue
 delete (L.Icon.Default.prototype as any)._getIconUrl;
@@ -15,33 +17,46 @@ L.Icon.Default.mergeOptions({
 });
 
 interface LeafletMapProps {
-  drivers: Driver[]; // ✅ fixed typing
+  categories?: Category[];
   userLocation?: { lat: number; lng: number };
 }
 
-function FitBounds({ drivers, userLocation }: LeafletMapProps) {
+function FitBounds({ categories, userLocation }: LeafletMapProps) {
   const map = useMap();
 
   useEffect(() => {
     const bounds = L.latLngBounds([]);
 
-    drivers.forEach((driver) => bounds.extend([driver.lat, driver.lng]));
+    categories?.forEach((category) => {
+      category.instances?.forEach((instance) => {
+        bounds.extend([instance.lat, instance.lng]);
+      });
+    });
+
     if (userLocation) bounds.extend([userLocation.lat, userLocation.lng]);
 
     if (bounds.isValid()) {
-      map.fitBounds(bounds, { padding: [50, 50] });
+      map.fitBounds(bounds, { padding: [50, 50], maxZoom: 14 });
     }
-  }, [drivers, userLocation, map]);
+  }, [categories, userLocation, map]);
 
   return null;
 }
 
-export default function LeafletMap({ drivers, userLocation }: LeafletMapProps) {
+export default function LeafletMap({
+  userLocation,
+  categories,
+}: LeafletMapProps) {
+  const [search, setSearch] = useState("");
   return (
     <MapContainer
-      center={[0, 0]}
+      center={userLocation ? [userLocation.lat, userLocation.lng] : [0, 0]}
       zoom={2}
       scrollWheelZoom
+      maxBounds={[
+        [-90, -180],
+        [90, 180],
+      ]}
       className="h-full w-full"
     >
       <TileLayer
@@ -58,38 +73,27 @@ export default function LeafletMap({ drivers, userLocation }: LeafletMapProps) {
         </Marker>
       )}
 
-      {/* Driver markers */}
-      {drivers.map((driver) => (
-        <Marker key={driver.id} position={[driver.lat, driver.lng]}>
-          {/* <Popup>
-            <div className="space-y-1">
-              <h3 className="font-bold text-lg">{driver.name}</h3>
-              <p>🚗 {driver.carModel}</p>
-              <p>🚗 {driver.carType}</p>
-              <p>⭐ {driver.rating}</p>
-              <p>📍 {driver.distance} km away</p>
-              <p>⏱ ETA: {driver.estimatedTime} mins</p>
-            </div>
-          </Popup> */}
-          <Popup>
-            <div className="space-y-1">
-              <h3 className="font-bold text-lg">{driver.name}</h3>
-              <p>
-                Car: {driver.carModel} ({driver.carType})
-              </p>
-              <p>⭐ Rating: {driver.rating}</p>
-              {driver.distance !== undefined && (
-                <p>📍 Distance: {driver.distance} km</p>
-              )}
-              {driver.estimatedTime !== undefined && (
-                <p>⏱ ETA: {driver.estimatedTime} mins</p>
-              )}
-            </div>
-          </Popup>
-        </Marker>
-      ))}
+      {/* Instance markers */}
+      {categories?.map((category) =>
+        category.instances?.map((instance) => (
+          <Marker key={instance.id} position={[instance.lat, instance.lng]}>
+            <Popup>
+              <div className="space-y-1">
+                <h3 className="font-bold text-lg">{instance.name}</h3>
+                <p>⭐ {instance.rating ?? "No rating"}</p>
+                {instance.distance !== undefined && (
+                  <p>📍 {instance.distance} km away</p>
+                )}
+                {instance.estimatedTime !== undefined && (
+                  <p>⏱ ETA: {instance.estimatedTime} mins</p>
+                )}
+              </div>
+            </Popup>
+          </Marker>
+        ))
+      )}
 
-      <FitBounds drivers={drivers} userLocation={userLocation} />
+      <FitBounds categories={categories} userLocation={userLocation} />
     </MapContainer>
   );
 }

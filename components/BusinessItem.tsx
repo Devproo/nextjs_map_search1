@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React from "react";
 import { FaStar } from "react-icons/fa";
-import { Business } from "@/shared/Data";
+import { Business } from "@/shared/Categories";
 
 interface BusinessItemProps {
   data: Business;

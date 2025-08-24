@@ -29,11 +29,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <div className="flex flex-col md:flex-row w-full min-h-screen">
-          {/* Topbar on mobile, sidebar on desktop */}
-          <div className="w-full md:w-auto">
-            <SideNav />
-          </div>
+        <div>
           <main className="flex-1">{children}</main>
         </div>
       </body>

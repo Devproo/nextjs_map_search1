@@ -2,15 +2,18 @@
 
 import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
 import { useCallback, useRef } from "react";
-import { Driver } from "@/shared/Driver";
+
+import { Category } from "@/shared/Categories";
 
 interface GoogleMapProps {
-  drivers: Driver[];
+  categories?: Category[];
+
   userLocation?: { lat: number; lng: number };
 }
 
 export default function GoogleMapComp({
-  drivers,
+  categories,
+
   userLocation,
 }: GoogleMapProps) {
   const mapRef = useRef<google.maps.Map | null>(null);
@@ -19,14 +22,17 @@ export default function GoogleMapComp({
     (map: google.maps.Map) => {
       mapRef.current = map;
       const bounds = new google.maps.LatLngBounds();
+      [
+        ...(categories?.map((d) => ({ lat: d.lat, lng: d.lng })) || []),
+        userLocation,
+      ]
 
-      [...drivers.map((d) => ({ lat: d.lat, lng: d.lng })), userLocation]
         .filter(Boolean)
         .forEach((pos) => bounds.extend(pos as google.maps.LatLngLiteral));
 
       if (!bounds.isEmpty()) map.fitBounds(bounds);
     },
-    [drivers, userLocation]
+    [categories, userLocation]
   );
 
   return (
@@ -41,11 +47,11 @@ export default function GoogleMapComp({
           <Marker position={userLocation} title="Your Location" />
         )}
 
-        {drivers.map((driver) => (
+        {categories?.map((category) => (
           <Marker
-            key={driver.id}
-            position={{ lat: driver.lat, lng: driver.lng }}
-            title={driver.name}
+            key={category.id}
+            position={{ lat: category.lat, lng: category.lng }}
+            title={category.name}
           />
         ))}
       </GoogleMap>

@@ -1,33 +1,55 @@
-// components/CategoryList.tsx
+"use client";
 
-import { CategoryListData } from "@/shared/Data";
+import { CategoryListData, Category, Instance } from "@/shared/Categories";
 import CategoryItem from "./CategoryItem";
 
-export default function CategoryList({
-  search,
-  setSearch,
-}: {
+interface CategoryListProps {
   search: string;
   setSearch: (value: string) => void;
-}) {
-  const filtered = CategoryListData.filter((cat) =>
-    cat.name.toLowerCase().includes(search.toLowerCase())
+}
+
+export default function CategoryList({ search, setSearch }: CategoryListProps) {
+  const filtered = CategoryListData.filter(
+    (cat) =>
+      cat.name.toLowerCase().includes(search.toLowerCase()) ||
+      cat.instances?.some((inst) =>
+        inst.name.toLowerCase().includes(search.toLowerCase())
+      )
   );
 
   return (
-    <div className="space-y-4">
-      <h2 className="font-bold text-[20px] mt-3">Select Your Fav Category</h2>
-      <div className="flex gap-6 mb-5 overflow-x-auto scrollbar-hide ">
-        {filtered.map((cat) => (
-          <div
-            key={cat.id}
-            onClick={() => setSearch(cat.name)}
-            className="cursor-pointer flex-shrink-0"
-          >
+    <div
+      className=" relative flex flex-row
+     gap-6 mb-5 overflow-x-auto scrollbar-hide"
+    >
+      {filtered.map((cat: Category) => (
+        <div key={cat.id} className=" group flex-shrink-0 ">
+          {/* Main category item */}
+          <div onClick={() => setSearch(cat.name)}>
             <CategoryItem category={cat} />
           </div>
-        ))}
-      </div>
+
+          {/* Dropdown of instances */}
+          {cat.instances && cat.instances.length > 0 && (
+            <div
+              className=" top-full left-0 mt-2 hidden group-hover:flex 
+                           bg-white shadow-lg rounded-xl p-2 z-10 min-w-[150px]"
+            >
+              <ul className="space-y-2">
+                {cat.instances.map((instance: Instance) => (
+                  <li
+                    key={instance.id}
+                    onClick={() => setSearch(instance.name)}
+                    className="px-3 py-1 hover:bg-gray-100 rounded-lg cursor-pointer"
+                  >
+                    {instance.name}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
+      ))}
     </div>
   );
 }

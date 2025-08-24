@@ -3,10 +3,10 @@
 import { useMemo, useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { Driver, DriverListData } from "@/shared/Driver";
+import { Category, CategoryListData } from "@/shared/Categories";
 
 type MapLibrary = "leaflet" | "google";
-type User = "user" | "driver";
-
+type User = "user";
 export default function MapView({ search = "" }: { search: string }) {
   const [mapLib, setMapLib] = useState<MapLibrary>("leaflet");
   const [userLocation, setUserLocation] = useState<{
@@ -44,7 +44,27 @@ export default function MapView({ search = "" }: { search: string }) {
     });
   }, [search]);
 
-  if (!userLocation) return <div>Loading your location...</div>;
+  // filter categories by search
+  const filteredCategories = useMemo<Category[]>(() => {
+    if (!search || !search.trim()) return CategoryListData;
+
+    const q = search.toLowerCase();
+    return CategoryListData.filter((category) => {
+      if (category.name.toLowerCase().includes(q)) return true;
+      if (category.value.toLowerCase().includes(q)) return true;
+      if (
+        category.instances?.some(
+          (i) =>
+            i.name.toLowerCase().includes(q) ||
+            i.rating?.toString().includes(q) ||
+            i.distance?.toString().toLowerCase().includes(q) ||
+            i.estimatedTime?.toString().toLowerCase().includes(q)
+        )
+      )
+        return true;
+      return false;
+    });
+  }, [search]);
 
   // Dynamic imports
   const LeafletMap = dynamic(() => import("@/components/LeafletMap"), {
@@ -55,28 +75,41 @@ export default function MapView({ search = "" }: { search: string }) {
   });
 
   return (
-    <div className="p-4 space-y-4  ">
-      <div className="bg-white rounded-lg p-4 shadow-md h-[600px] overflow-hidden pb-20 ">
-        <h2 className="text-lg font-bold m-2 "> {mapLib} Map View </h2>
-
+    <div className="  p-0 space-y-0  ">
+      <div className="relative bg-white rounded-lg shadow-md h-screen overflow-hidden">
+        {/* Show overlay while loading */}
+        {!userLocation && (
+          <div className="fixed inset-0 flex items-center justify-center z-[2000] bg-white/80">
+            Loading your location...
+          </div>
+        )}
         {mapLib === "leaflet" ? (
-          <LeafletMap drivers={filteredDrivers} userLocation={userLocation} />
+          <LeafletMap
+            categories={filteredCategories}
+            // drivers={filteredDrivers}
+            userLocation={userLocation ?? { lat: 0, lng: 0 }}
+          />
         ) : (
           <GoogleMapComp
-            drivers={filteredDrivers}
-            userLocation={userLocation}
+            categories={filteredCategories}
+            // drivers={filteredDrivers}
+            userLocation={userLocation ?? { lat: 0, lng: 0 }}
           />
         )}
+        {/* Overlay title */}
+        <h2 className="absolute bottom-7 right-4 text-lg font-bold z-[1001] bg-white/80 px-2 py-1 rounded">
+          {mapLib} Map View
+        </h2>
+        {/* Overlay select */}
+        <select
+          value={mapLib}
+          onChange={(e) => setMapLib(e.target.value as MapLibrary)}
+          className="absolute bottom-6 left-16 border p-2 rounded bg-white/90 z-[1001]"
+        >
+          <option value="leaflet">Leaflet</option>
+          <option value="google">Google Maps</option>
+        </select>
       </div>
-
-      <select
-        value={mapLib}
-        onChange={(e) => setMapLib(e.target.value as MapLibrary)}
-        className="border p-2 rounded"
-      >
-        <option value="leaflet">Leaflet</option>
-        <option value="google">Google Maps</option>
-      </select>
     </div>
   );
 }

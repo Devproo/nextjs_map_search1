@@ -1,5 +1,5 @@
 // components/BusinessList.tsx
-import { BusinessListData } from "@/shared/Data";
+import { BusinessListData } from "@/shared/Categories";
 import BusinessItem from "./BusinessItem";
 import { useState } from "react";
 
