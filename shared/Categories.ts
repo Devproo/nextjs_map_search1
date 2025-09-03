@@ -31,15 +31,13 @@ export const CategoryListData: Category[] = [
     name: "Drivers",
     value: "drivers",
     icon: "/driver.png",
-    rating: 4.7,
-    distance: 2.5,
-    estimatedTime: 8,
+
     instances: [
       {
         id: 0,
         categoryId: 0,
         name: "John Doe",
-        lat: 33.7129,
+        lat: 53.7129,
         lng: -44.005,
         rating: 4.8,
         distance: 2.1,
@@ -50,7 +48,7 @@ export const CategoryListData: Category[] = [
         categoryId: 0,
         name: "Jane Smith",
         lat: 33.713,
-        lng: -44.007,
+        lng: -74.007,
         rating: 4.6,
         distance: 2.6,
         estimatedTime: 9,
@@ -59,8 +57,8 @@ export const CategoryListData: Category[] = [
         id: 2,
         categoryId: 0,
         name: "Alex Johnson",
-        lat: 33.7127,
-        lng: -44.004,
+        lat: 53.7127,
+        lng: -69.004,
         rating: 4.7,
         distance: 2.4,
         estimatedTime: 8,
@@ -73,9 +71,6 @@ export const CategoryListData: Category[] = [
     value: "jobs",
     icon: "/job.png",
 
-    rating: 4.2,
-    distance: 5.1,
-    estimatedTime: 15,
     instances: [
       {
         id: 3,
@@ -115,9 +110,6 @@ export const CategoryListData: Category[] = [
     value: "services",
     icon: "/service.png",
 
-    rating: 4.5,
-    distance: 1.8,
-    estimatedTime: 6,
     instances: [
       {
         id: 6,
@@ -157,9 +149,6 @@ export const CategoryListData: Category[] = [
     value: "hotels",
     icon: "/hotel.jpg",
 
-    rating: 4.6,
-    distance: 7.2,
-    estimatedTime: 20,
     instances: [
       {
         id: 9,
@@ -199,16 +188,13 @@ export const CategoryListData: Category[] = [
     value: "events",
     icon: "/event.jpeg",
 
-    rating: 4.3,
-    distance: 3.3,
-    estimatedTime: 10,
     instances: [
       {
         id: 12,
         categoryId: 4,
         name: "Concert",
-        lat: 60.717,
-        lng: -23.009,
+        lat: 70.717,
+        lng: -43.009,
         rating: 4.4,
         distance: 3.2,
         estimatedTime: 9,
@@ -217,8 +203,8 @@ export const CategoryListData: Category[] = [
         id: 13,
         categoryId: 4,
         name: "Exhibition",
-        lat: 60.7165,
-        lng: -23.011,
+        lat: 40.7165,
+        lng: -63.011,
         rating: 4.3,
         distance: 3.4,
         estimatedTime: 11,
@@ -227,8 +213,8 @@ export const CategoryListData: Category[] = [
         id: 14,
         categoryId: 4,
         name: "Conference",
-        lat: 60.7168,
-        lng: -23.012,
+        lat: 77.7168,
+        lng: -73.012,
         rating: 4.2,
         distance: 3.3,
         estimatedTime: 10,
@@ -241,9 +227,6 @@ export const CategoryListData: Category[] = [
     value: "places",
     icon: "/place.png",
 
-    rating: 4.8,
-    distance: 0.9,
-    estimatedTime: 3,
     instances: [
       {
         id: 15,
@@ -283,9 +266,6 @@ export const CategoryListData: Category[] = [
     value: "car_rentals",
     icon: "/carrental.png",
 
-    rating: 4.4,
-    distance: 12.6,
-    estimatedTime: 25,
     instances: [
       {
         id: 18,
@@ -326,9 +306,6 @@ export const CategoryListData: Category[] = [
     value: "gas_station",
     icon: "/gas.png",
 
-    rating: 4.1,
-    distance: 4.7,
-    estimatedTime: 12,
     instances: [
       {
         id: 21,
@@ -368,9 +345,6 @@ export const CategoryListData: Category[] = [
     value: "restaurant",
     icon: "/rest.png",
 
-    rating: 4.6,
-    distance: 2.0,
-    estimatedTime: 6,
     instances: [
       {
         id: 24,
@@ -410,9 +384,6 @@ export const CategoryListData: Category[] = [
     value: "supermarket",
     icon: "/supermarket.jpeg",
 
-    rating: 4.5,
-    distance: 1.5,
-    estimatedTime: 5,
     instances: [
       {
         id: 27,
@@ -452,9 +423,6 @@ export const CategoryListData: Category[] = [
     value: "pharmacy",
     icon: "/pharmacy.jpeg",
 
-    rating: 4.3,
-    distance: 2.7,
-    estimatedTime: 9,
     instances: [
       {
         id: 30,
@@ -494,9 +462,6 @@ export const CategoryListData: Category[] = [
     value: "cafe",
     icon: "/cafee.jpeg",
 
-    rating: 4.7,
-    distance: 1.2,
-    estimatedTime: 4,
     instances: [
       {
         id: 33,
@@ -536,9 +501,6 @@ export const CategoryListData: Category[] = [
     value: "bookstore",
     icon: "/bookstore.jpeg",
 
-    rating: 4.6,
-    distance: 3.0,
-    estimatedTime: 11,
     instances: [
       {
         id: 36,
@@ -578,9 +540,6 @@ export const CategoryListData: Category[] = [
     value: "gym",
     icon: "/gym.png",
 
-    rating: 4.4,
-    distance: 6.1,
-    estimatedTime: 18,
     instances: [
       {
         id: 39,
@@ -620,9 +579,6 @@ export const CategoryListData: Category[] = [
     value: "flower_shop",
     icon: "/flowers.jpeg",
 
-    rating: 4.2,
-    distance: 1.9,
-    estimatedTime: 7,
     instances: [
       {
         id: 42,

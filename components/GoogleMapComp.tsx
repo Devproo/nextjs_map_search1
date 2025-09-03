@@ -47,13 +47,16 @@ export default function GoogleMapComp({
           <Marker position={userLocation} title="Your Location" />
         )}
 
-        {categories?.map((category) => (
-          <Marker
-            key={category.id}
-            position={{ lat: category.lat, lng: category.lng }}
-            title={category.name}
-          />
-        ))}
+        {categories?.flatMap(
+          (category) =>
+            category.instances?.map((instance) => (
+              <Marker
+                key={instance.id}
+                position={{ lat: instance.lat, lng: instance.lng }}
+                title={instance.name}
+              />
+            )) || []
+        )}
       </GoogleMap>
     </LoadScript>
   );
