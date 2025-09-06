@@ -6,9 +6,18 @@ import CategoryItem from "./CategoryItem";
 interface CategoryListProps {
   search: string;
   setSearch: (value: string) => void;
+  selectedCategory: Category | null;
+  setSelectedCategory: (cat: Category | null) => void;
+  setSelectedInstance: (inst: Instance | null) => void;
 }
 
-export default function CategoryList({ search, setSearch }: CategoryListProps) {
+export default function CategoryList({
+  search,
+  setSearch,
+  selectedCategory,
+  setSelectedCategory,
+  setSelectedInstance,
+}: CategoryListProps) {
   const filtered = CategoryListData.filter(
     (cat) =>
       cat.name.toLowerCase().includes(search.toLowerCase()) ||
@@ -18,28 +27,37 @@ export default function CategoryList({ search, setSearch }: CategoryListProps) {
   );
 
   return (
-    <div
-      className=" relative flex flex-row
-     gap-6 mb-5 overflow-x-auto scrollbar-hide"
-    >
+    <div className="relative flex flex-row gap-6 mb-5 overflow-x-auto scrollbar-hide">
       {filtered.map((cat: Category) => (
-        <div key={cat.id} className=" group flex-shrink-0 ">
+        <div key={cat.id} className="group flex-shrink-0">
           {/* Main category item */}
-          <div onClick={() => setSearch(cat.name)}>
+          <div
+            onClick={() => {
+              setSearch(cat.name);
+              setSelectedCategory(cat);
+              setSelectedInstance(null);
+            }}
+            className={
+              selectedCategory?.id === cat.id
+                ? "ring-2 ring-blue-500 rounded"
+                : ""
+            }
+          >
             <CategoryItem category={cat} />
           </div>
 
           {/* Dropdown of instances */}
           {cat.instances && cat.instances.length > 0 && (
-            <div
-              className=" top-full left-0 mt-2 hidden group-hover:flex 
-                           bg-white shadow-lg rounded-xl p-2 z-10 min-w-[150px]"
-            >
+            <div className="top-full left-0 mt-2 hidden group-hover:flex bg-white shadow-lg rounded-xl p-2 z-10 min-w-[150px]">
               <ul className="space-y-2">
                 {cat.instances.map((instance: Instance) => (
                   <li
                     key={instance.id}
-                    onClick={() => setSearch(instance.name)}
+                    onClick={() => {
+                      setSearch(instance.name);
+                      setSelectedCategory(cat);
+                      setSelectedInstance(instance);
+                    }}
                     className="px-3 py-1 hover:bg-gray-100 rounded-lg cursor-pointer"
                   >
                     {instance.name}

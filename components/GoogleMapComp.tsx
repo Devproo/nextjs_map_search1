@@ -3,10 +3,12 @@
 import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
 import { useCallback, useRef } from "react";
 
-import { Category } from "@/shared/Categories";
+import { Category, Instance } from "@/shared/Categories";
 
 interface GoogleMapProps {
   categories?: Category[];
+  selectedCategory?: Category | null;
+  selectedInstance?: Instance | null;
 
   userLocation?: { lat: number; lng: number };
 }
