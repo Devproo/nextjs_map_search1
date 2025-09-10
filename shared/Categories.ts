@@ -1,3 +1,619 @@
+// // shared/Data.ts
+
+// export interface BaseModel {
+//   id: number;
+//   name: string;
+//   lat?: number;
+//   lng?: number;
+//   rating?: number;
+//   distance?: number; // in kilometers
+//   estimatedTime?: number; // in minutes
+//   icon?: string; // optional for instances
+//   value?: string; // optional for categories
+//   categoryId?: number; // optional for instances
+// }
+
+// export interface Instance extends BaseModel {
+//   lat: number;
+//   lng: number;
+// }
+
+// export interface Category extends BaseModel {
+//   value: string;
+//   icon: string;
+//   instances?: Instance[];
+// }
+
+// // Full mock data
+// export const CategoryListData: Category[] = [
+//   {
+//     id: 0,
+//     name: "Drivers",
+//     value: "drivers",
+//     icon: "/driver.png",
+
+//     instances: [
+//       {
+//         id: 0,
+//         categoryId: 0,
+//         name: "John Doe",
+//         lat: 53.7129,
+//         lng: -44.005,
+//         rating: 4.8,
+//         distance: 2.1,
+//         estimatedTime: 7,
+//       },
+//       {
+//         id: 1,
+//         categoryId: 0,
+//         name: "Jane Smith",
+//         lat: 33.713,
+//         lng: -74.007,
+//         rating: 4.6,
+//         distance: 2.6,
+//         estimatedTime: 9,
+//       },
+//       {
+//         id: 2,
+//         categoryId: 0,
+//         name: "Alex Johnson",
+//         lat: 53.7127,
+//         lng: -69.004,
+//         rating: 4.7,
+//         distance: 2.4,
+//         estimatedTime: 8,
+//       },
+//     ],
+//   },
+//   {
+//     id: 1,
+//     name: "Jobs",
+//     value: "jobs",
+//     icon: "/job.png",
+
+//     instances: [
+//       {
+//         id: 3,
+//         categoryId: 1,
+//         name: "Delivery",
+//         lat: 20.714,
+//         lng: -54.006,
+//         rating: 4.0,
+//         distance: 5,
+//         estimatedTime: 14,
+//       },
+//       {
+//         id: 4,
+//         categoryId: 1,
+//         name: "Cleaning",
+//         lat: 20.7135,
+//         lng: -34.008,
+//         rating: 4.3,
+//         distance: 5.2,
+//         estimatedTime: 16,
+//       },
+//       {
+//         id: 5,
+//         categoryId: 1,
+//         name: "Software Developer",
+//         lat: 20.7139,
+//         lng: -64.009,
+//         rating: 4.5,
+//         distance: 5.1,
+//         estimatedTime: 15,
+//       },
+//     ],
+//   },
+//   {
+//     id: 2,
+//     name: "Services",
+//     value: "services",
+//     icon: "/service.png",
+
+//     instances: [
+//       {
+//         id: 6,
+//         categoryId: 2,
+//         name: "Plumbing",
+//         lat: 70.715,
+//         lng: -44.007,
+//         rating: 4.4,
+//         distance: 1.9,
+//         estimatedTime: 7,
+//       },
+//       {
+//         id: 7,
+//         categoryId: 2,
+//         name: "Electrician",
+//         lat: 80.7145,
+//         lng: -54.0085,
+//         rating: 4.5,
+//         distance: 1.7,
+//         estimatedTime: 6,
+//       },
+//       {
+//         id: 8,
+//         categoryId: 2,
+//         name: "Mechanic",
+//         lat: 40.7147,
+//         lng: -34.009,
+//         rating: 4.6,
+//         distance: 1.8,
+//         estimatedTime: 6,
+//       },
+//     ],
+//   },
+//   {
+//     id: 3,
+//     name: "Hotels",
+//     value: "hotels",
+//     icon: "/hotel.jpg",
+
+//     instances: [
+//       {
+//         id: 9,
+//         categoryId: 3,
+//         name: "Hilton",
+//         lat: 40.716,
+//         lng: -44.008,
+//         rating: 4.7,
+//         distance: 7.0,
+//         estimatedTime: 19,
+//       },
+//       {
+//         id: 10,
+//         categoryId: 3,
+//         name: "Marriott",
+//         lat: 50.7155,
+//         lng: -54.0095,
+//         rating: 4.6,
+//         distance: 7.3,
+//         estimatedTime: 21,
+//       },
+//       {
+//         id: 11,
+//         categoryId: 3,
+//         name: "Holiday Inn",
+//         lat: 33.7158,
+//         lng: -66.01,
+//         rating: 4.5,
+//         distance: 7.2,
+//         estimatedTime: 20,
+//       },
+//     ],
+//   },
+//   {
+//     id: 4,
+//     name: "Events",
+//     value: "events",
+//     icon: "/event.jpeg",
+
+//     instances: [
+//       {
+//         id: 12,
+//         categoryId: 4,
+//         name: "Concert",
+//         lat: 70.717,
+//         lng: -43.009,
+//         rating: 4.4,
+//         distance: 3.2,
+//         estimatedTime: 9,
+//       },
+//       {
+//         id: 13,
+//         categoryId: 4,
+//         name: "Exhibition",
+//         lat: 40.7165,
+//         lng: -63.011,
+//         rating: 4.3,
+//         distance: 3.4,
+//         estimatedTime: 11,
+//       },
+//       {
+//         id: 14,
+//         categoryId: 4,
+//         name: "Conference",
+//         lat: 77.7168,
+//         lng: -73.012,
+//         rating: 4.2,
+//         distance: 3.3,
+//         estimatedTime: 10,
+//       },
+//     ],
+//   },
+//   {
+//     id: 5,
+//     name: "Places",
+//     value: "places",
+//     icon: "/place.png",
+
+//     instances: [
+//       {
+//         id: 15,
+//         categoryId: 5,
+//         name: "Central Park",
+//         lat: 77.718,
+//         lng: -33.01,
+//         rating: 4.9,
+//         distance: 0.8,
+//         estimatedTime: 2,
+//       },
+//       {
+//         id: 16,
+//         categoryId: 5,
+//         name: "Statue of Liberty",
+//         lat: 55.7175,
+//         lng: -13.012,
+//         rating: 4.8,
+//         distance: 0.9,
+//         estimatedTime: 3,
+//       },
+//       {
+//         id: 17,
+//         categoryId: 5,
+//         name: "Times Square",
+//         lat: 36.7178,
+//         lng: -73.013,
+//         rating: 4.7,
+//         distance: 1,
+//         estimatedTime: 4,
+//       },
+//     ],
+//   },
+//   {
+//     id: 6,
+//     name: "Car Rentals",
+//     value: "car_rentals",
+//     icon: "/carrental.png",
+
+//     instances: [
+//       {
+//         id: 18,
+//         categoryId: 6,
+//         name: "Hertz",
+//         lat: 69.719,
+//         lng: -66.011,
+//         rating: 4.3,
+//         distance: 12.5,
+//         estimatedTime: 24,
+//       },
+//       {
+//         id: 19,
+//         categoryId: 6,
+//         name: "Avis",
+//         lat: 49.7185,
+//         lng: -66.013,
+//         rating: 4.4,
+//         distance: 12.6,
+//         estimatedTime: 25,
+//       },
+//       {
+//         id: 20,
+//         categoryId: 6,
+//         name: "Enterprise",
+//         lat: 39.7188,
+//         lng: -66.014,
+//         rating: 4.5,
+//         distance: 12.7,
+//         estimatedTime: 26,
+//       },
+//     ],
+//   },
+//   // continuation of CategoryListData
+//   {
+//     id: 7,
+//     name: "Gas station",
+//     value: "gas_station",
+//     icon: "/gas.png",
+
+//     instances: [
+//       {
+//         id: 21,
+//         categoryId: 7,
+//         name: "Fuel Express",
+//         lat: 60.72,
+//         lng: -74.012,
+//         rating: 4.0,
+//         distance: 4.6,
+//         estimatedTime: 11,
+//       },
+//       {
+//         id: 22,
+//         categoryId: 7,
+//         name: "QuickFuel",
+//         lat: 55.7195,
+//         lng: -74.014,
+//         rating: 4.2,
+//         distance: 4.8,
+//         estimatedTime: 13,
+//       },
+//       {
+//         id: 23,
+//         categoryId: 7,
+//         name: "Shell",
+//         lat: 44.7198,
+//         lng: -74.015,
+//         rating: 4.1,
+//         distance: 4.7,
+//         estimatedTime: 12,
+//       },
+//     ],
+//   },
+//   {
+//     id: 8,
+//     name: "Restaurant",
+//     value: "restaurant",
+//     icon: "/rest.png",
+
+//     instances: [
+//       {
+//         id: 24,
+//         categoryId: 8,
+//         name: "Pizza Place",
+//         lat: 40.721,
+//         lng: -74.013,
+//         rating: 4.6,
+//         distance: 2.1,
+//         estimatedTime: 6,
+//       },
+//       {
+//         id: 25,
+//         categoryId: 8,
+//         name: "Sushi Bar",
+//         lat: 40.7205,
+//         lng: -74.015,
+//         rating: 4.7,
+//         distance: 1.9,
+//         estimatedTime: 5,
+//       },
+//       {
+//         id: 26,
+//         categoryId: 8,
+//         name: "Steakhouse",
+//         lat: 40.7208,
+//         lng: -74.016,
+//         rating: 4.5,
+//         distance: 2.0,
+//         estimatedTime: 6,
+//       },
+//     ],
+//   },
+//   {
+//     id: 9,
+//     name: "Supermarket",
+//     value: "supermarket",
+//     icon: "/supermarket.jpeg",
+
+//     instances: [
+//       {
+//         id: 27,
+//         categoryId: 9,
+//         name: "Fresh Mart",
+//         lat: 50.722,
+//         lng: -44.014,
+//         rating: 4.5,
+//         distance: 1.4,
+//         estimatedTime: 5,
+//       },
+//       {
+//         id: 28,
+//         categoryId: 9,
+//         name: "Whole Foods",
+//         lat: 90.7215,
+//         lng: -44.016,
+//         rating: 4.6,
+//         distance: 1.6,
+//         estimatedTime: 6,
+//       },
+//       {
+//         id: 29,
+//         categoryId: 9,
+//         name: "Trader Joe’s",
+//         lat: 55.7218,
+//         lng: -44.017,
+//         rating: 4.4,
+//         distance: 1.5,
+//         estimatedTime: 5,
+//       },
+//     ],
+//   },
+//   {
+//     id: 10,
+//     name: "Pharmacy",
+//     value: "pharmacy",
+//     icon: "/pharmacy.jpeg",
+
+//     instances: [
+//       {
+//         id: 30,
+//         categoryId: 10,
+//         name: "HealthCare Pharmacy",
+//         lat: 70.723,
+//         lng: -24.015,
+//         rating: 4.2,
+//         distance: 2.6,
+//         estimatedTime: 8,
+//       },
+//       {
+//         id: 31,
+//         categoryId: 10,
+//         name: "CVS",
+//         lat: 70.7225,
+//         lng: -24.017,
+//         rating: 4.3,
+//         distance: 2.8,
+//         estimatedTime: 10,
+//       },
+//       {
+//         id: 32,
+//         categoryId: 10,
+//         name: "Walgreens",
+//         lat: 70.7228,
+//         lng: -24.018,
+//         rating: 4.4,
+//         distance: 2.7,
+//         estimatedTime: 9,
+//       },
+//     ],
+//   },
+//   {
+//     id: 11,
+//     name: "Cafe",
+//     value: "cafe",
+//     icon: "/cafee.jpeg",
+
+//     instances: [
+//       {
+//         id: 33,
+//         categoryId: 11,
+//         name: "Coffee Corner",
+//         lat: 10.724,
+//         lng: -74.016,
+//         rating: 4.7,
+//         distance: 1.1,
+//         estimatedTime: 3,
+//       },
+//       {
+//         id: 34,
+//         categoryId: 11,
+//         name: "Starbucks",
+//         lat: 10.7235,
+//         lng: -74.018,
+//         rating: 4.8,
+//         distance: 1.3,
+//         estimatedTime: 4,
+//       },
+//       {
+//         id: 35,
+//         categoryId: 11,
+//         name: "Blue Bottle",
+//         lat: 10.7238,
+//         lng: -74.019,
+//         rating: 4.6,
+//         distance: 1.2,
+//         estimatedTime: 4,
+//       },
+//     ],
+//   },
+//   {
+//     id: 12,
+//     name: "Bookstore",
+//     value: "bookstore",
+//     icon: "/bookstore.jpeg",
+
+//     instances: [
+//       {
+//         id: 36,
+//         categoryId: 12,
+//         name: "The Reading Room",
+//         lat: 40.725,
+//         lng: -34.017,
+//         rating: 4.6,
+//         distance: 2.9,
+//         estimatedTime: 10,
+//       },
+//       {
+//         id: 37,
+//         categoryId: 12,
+//         name: "Barnes & Noble",
+//         lat: 40.7245,
+//         lng: -34.019,
+//         rating: 4.7,
+//         distance: 3.1,
+//         estimatedTime: 12,
+//       },
+//       {
+//         id: 38,
+//         categoryId: 12,
+//         name: "Indie Books",
+//         lat: 40.7248,
+//         lng: -34.02,
+//         rating: 4.5,
+//         distance: 3.0,
+//         estimatedTime: 11,
+//       },
+//     ],
+//   },
+//   {
+//     id: 13,
+//     name: "Gym",
+//     value: "gym",
+//     icon: "/gym.png",
+
+//     instances: [
+//       {
+//         id: 39,
+//         categoryId: 13,
+//         name: "Iron Paradise",
+//         lat: 70.726,
+//         lng: -34.018,
+//         rating: 4.4,
+//         distance: 6.0,
+//         estimatedTime: 17,
+//       },
+//       {
+//         id: 40,
+//         categoryId: 13,
+//         name: "Gold’s Gym",
+//         lat: 70.7255,
+//         lng: -34.02,
+//         rating: 4.5,
+//         distance: 6.2,
+//         estimatedTime: 18,
+//       },
+//       {
+//         id: 41,
+//         categoryId: 13,
+//         name: "Planet Fitness",
+//         lat: 60.7258,
+//         lng: -34.021,
+//         rating: 4.3,
+//         distance: 6.1,
+//         estimatedTime: 18,
+//       },
+//     ],
+//   },
+//   {
+//     id: 14,
+//     name: "Flower Shop",
+//     value: "flower_shop",
+//     icon: "/flowers.jpeg",
+
+//     instances: [
+//       {
+//         id: 42,
+//         categoryId: 14,
+//         name: "Bloom & Co.",
+//         lat: 60.727,
+//         lng: -54.019,
+//         rating: 4.2,
+//         distance: 1.8,
+//         estimatedTime: 6,
+//       },
+//       {
+//         id: 43,
+//         categoryId: 14,
+//         name: "Rose Boutique",
+//         lat: 60.7265,
+//         lng: -54.021,
+//         rating: 4.3,
+//         distance: 2.0,
+//         estimatedTime: 8,
+//       },
+//       {
+//         id: 44,
+//         categoryId: 14,
+//         name: "Petal House",
+//         lat: 60.7268,
+//         lng: -54.022,
+//         rating: 4.1,
+//         distance: 1.9,
+//         estimatedTime: 7,
+//       },
+//     ],
+//   },
+// ];
+
 // shared/Data.ts
 
 export interface BaseModel {
@@ -24,45 +640,44 @@ export interface Category extends BaseModel {
   instances?: Instance[];
 }
 
-// Full mock data
+// Full mock data (lat/lng adjusted to Africa)
 export const CategoryListData: Category[] = [
   {
     id: 0,
     name: "Drivers",
     value: "drivers",
     icon: "/driver.png",
-
     instances: [
       {
         id: 0,
         categoryId: 0,
         name: "John Doe",
-        lat: 53.7129,
-        lng: -44.005,
+        lat: 9.03,
+        lng: 38.74,
         rating: 4.8,
         distance: 2.1,
         estimatedTime: 7,
-      },
+      }, // Addis Ababa
       {
         id: 1,
         categoryId: 0,
         name: "Jane Smith",
-        lat: 33.713,
-        lng: -74.007,
+        lat: -1.29,
+        lng: 36.82,
         rating: 4.6,
         distance: 2.6,
         estimatedTime: 9,
-      },
+      }, // Nairobi
       {
         id: 2,
         categoryId: 0,
         name: "Alex Johnson",
-        lat: 53.7127,
-        lng: -69.004,
+        lat: 6.52,
+        lng: 3.37,
         rating: 4.7,
         distance: 2.4,
         estimatedTime: 8,
-      },
+      }, // Lagos
     ],
   },
   {
@@ -70,38 +685,37 @@ export const CategoryListData: Category[] = [
     name: "Jobs",
     value: "jobs",
     icon: "/job.png",
-
     instances: [
       {
         id: 3,
         categoryId: 1,
         name: "Delivery",
-        lat: 20.714,
-        lng: -54.006,
+        lat: 30.04,
+        lng: 31.24,
         rating: 4.0,
         distance: 5,
         estimatedTime: 14,
-      },
+      }, // Cairo
       {
         id: 4,
         categoryId: 1,
         name: "Cleaning",
-        lat: 20.7135,
-        lng: -34.008,
+        lat: 14.69,
+        lng: -17.44,
         rating: 4.3,
         distance: 5.2,
         estimatedTime: 16,
-      },
+      }, // Dakar
       {
         id: 5,
         categoryId: 1,
         name: "Software Developer",
-        lat: 20.7139,
-        lng: -64.009,
+        lat: -26.2,
+        lng: 28.04,
         rating: 4.5,
         distance: 5.1,
         estimatedTime: 15,
-      },
+      }, // Johannesburg
     ],
   },
   {
@@ -109,38 +723,37 @@ export const CategoryListData: Category[] = [
     name: "Services",
     value: "services",
     icon: "/service.png",
-
     instances: [
       {
         id: 6,
         categoryId: 2,
         name: "Plumbing",
-        lat: 70.715,
-        lng: -44.007,
+        lat: 15.33,
+        lng: 38.93,
         rating: 4.4,
         distance: 1.9,
         estimatedTime: 7,
-      },
+      }, // Asmara
       {
         id: 7,
         categoryId: 2,
         name: "Electrician",
-        lat: 80.7145,
-        lng: -54.0085,
+        lat: 12.37,
+        lng: -1.52,
         rating: 4.5,
         distance: 1.7,
         estimatedTime: 6,
-      },
+      }, // Ouagadougou
       {
         id: 8,
         categoryId: 2,
         name: "Mechanic",
-        lat: 40.7147,
-        lng: -34.009,
+        lat: -4.04,
+        lng: 39.67,
         rating: 4.6,
         distance: 1.8,
         estimatedTime: 6,
-      },
+      }, // Mombasa
     ],
   },
   {
@@ -148,38 +761,37 @@ export const CategoryListData: Category[] = [
     name: "Hotels",
     value: "hotels",
     icon: "/hotel.jpg",
-
     instances: [
       {
         id: 9,
         categoryId: 3,
         name: "Hilton",
-        lat: 40.716,
-        lng: -44.008,
+        lat: 5.56,
+        lng: -0.2,
         rating: 4.7,
         distance: 7.0,
         estimatedTime: 19,
-      },
+      }, // Accra
       {
         id: 10,
         categoryId: 3,
         name: "Marriott",
-        lat: 50.7155,
-        lng: -54.0095,
+        lat: -33.92,
+        lng: 18.42,
         rating: 4.6,
         distance: 7.3,
         estimatedTime: 21,
-      },
+      }, // Cape Town
       {
         id: 11,
         categoryId: 3,
         name: "Holiday Inn",
-        lat: 33.7158,
-        lng: -66.01,
+        lat: 36.81,
+        lng: 10.17,
         rating: 4.5,
         distance: 7.2,
         estimatedTime: 20,
-      },
+      }, // Tunis
     ],
   },
   {
@@ -187,38 +799,37 @@ export const CategoryListData: Category[] = [
     name: "Events",
     value: "events",
     icon: "/event.jpeg",
-
     instances: [
       {
         id: 12,
         categoryId: 4,
         name: "Concert",
-        lat: 70.717,
-        lng: -43.009,
+        lat: 9.93,
+        lng: 8.89,
         rating: 4.4,
         distance: 3.2,
         estimatedTime: 9,
-      },
+      }, // Jos, Nigeria
       {
         id: 13,
         categoryId: 4,
         name: "Exhibition",
-        lat: 40.7165,
-        lng: -63.011,
+        lat: 15.59,
+        lng: 32.53,
         rating: 4.3,
         distance: 3.4,
         estimatedTime: 11,
-      },
+      }, // Khartoum
       {
         id: 14,
         categoryId: 4,
         name: "Conference",
-        lat: 77.7168,
-        lng: -73.012,
+        lat: -6.17,
+        lng: 35.74,
         rating: 4.2,
         distance: 3.3,
         estimatedTime: 10,
-      },
+      }, // Dodoma
     ],
   },
   {
@@ -226,38 +837,37 @@ export const CategoryListData: Category[] = [
     name: "Places",
     value: "places",
     icon: "/place.png",
-
     instances: [
       {
         id: 15,
         categoryId: 5,
         name: "Central Park",
-        lat: 77.718,
-        lng: -33.01,
+        lat: -1.95,
+        lng: 30.06,
         rating: 4.9,
         distance: 0.8,
         estimatedTime: 2,
-      },
+      }, // Kigali
       {
         id: 16,
         categoryId: 5,
         name: "Statue of Liberty",
-        lat: 55.7175,
-        lng: -13.012,
+        lat: 35.69,
+        lng: -0.63,
         rating: 4.8,
         distance: 0.9,
         estimatedTime: 3,
-      },
+      }, // Oran
       {
         id: 17,
         categoryId: 5,
         name: "Times Square",
-        lat: 36.7178,
-        lng: -73.013,
+        lat: 6.13,
+        lng: 1.22,
         rating: 4.7,
         distance: 1,
         estimatedTime: 4,
-      },
+      }, // Lomé
     ],
   },
   {
@@ -265,78 +875,75 @@ export const CategoryListData: Category[] = [
     name: "Car Rentals",
     value: "car_rentals",
     icon: "/carrental.png",
-
     instances: [
       {
         id: 18,
         categoryId: 6,
         name: "Hertz",
-        lat: 69.719,
-        lng: -66.011,
+        lat: -15.41,
+        lng: 28.28,
         rating: 4.3,
         distance: 12.5,
         estimatedTime: 24,
-      },
+      }, // Lusaka
       {
         id: 19,
         categoryId: 6,
         name: "Avis",
-        lat: 49.7185,
-        lng: -66.013,
+        lat: 32.89,
+        lng: 13.19,
         rating: 4.4,
         distance: 12.6,
         estimatedTime: 25,
-      },
+      }, // Tripoli
       {
         id: 20,
         categoryId: 6,
         name: "Enterprise",
-        lat: 39.7188,
-        lng: -66.014,
+        lat: -18.88,
+        lng: 47.51,
         rating: 4.5,
         distance: 12.7,
         estimatedTime: 26,
-      },
+      }, // Antananarivo
     ],
   },
-  // continuation of CategoryListData
   {
     id: 7,
     name: "Gas station",
     value: "gas_station",
     icon: "/gas.png",
-
     instances: [
       {
         id: 21,
         categoryId: 7,
         name: "Fuel Express",
-        lat: 60.72,
-        lng: -74.012,
+        lat: -25.97,
+        lng: 32.58,
         rating: 4.0,
         distance: 4.6,
         estimatedTime: 11,
-      },
+      }, // Maputo
       {
         id: 22,
         categoryId: 7,
         name: "QuickFuel",
-        lat: 55.7195,
-        lng: -74.014,
+        lat: 13.52,
+        lng: 2.11,
         rating: 4.2,
         distance: 4.8,
         estimatedTime: 13,
-      },
+      }, // Niamey
       {
         id: 23,
         categoryId: 7,
         name: "Shell",
-        lat: 44.7198,
-        lng: -74.015,
+        lat: -3.38,
+        lng: 29.36,
         rating: 4.1,
         distance: 4.7,
         estimatedTime: 12,
-      },
+      }, // Bujumbura
     ],
   },
   {
@@ -344,38 +951,37 @@ export const CategoryListData: Category[] = [
     name: "Restaurant",
     value: "restaurant",
     icon: "/rest.png",
-
     instances: [
       {
         id: 24,
         categoryId: 8,
         name: "Pizza Place",
-        lat: 40.721,
-        lng: -74.013,
+        lat: 11.59,
+        lng: 43.15,
         rating: 4.6,
         distance: 2.1,
         estimatedTime: 6,
-      },
+      }, // Djibouti
       {
         id: 25,
         categoryId: 8,
         name: "Sushi Bar",
-        lat: 40.7205,
-        lng: -74.015,
+        lat: -20.16,
+        lng: 57.5,
         rating: 4.7,
         distance: 1.9,
         estimatedTime: 5,
-      },
+      }, // Port Louis
       {
         id: 26,
         categoryId: 8,
         name: "Steakhouse",
-        lat: 40.7208,
-        lng: -74.016,
+        lat: 4.05,
+        lng: 9.77,
         rating: 4.5,
         distance: 2.0,
         estimatedTime: 6,
-      },
+      }, // Douala
     ],
   },
   {
@@ -383,38 +989,37 @@ export const CategoryListData: Category[] = [
     name: "Supermarket",
     value: "supermarket",
     icon: "/supermarket.jpeg",
-
     instances: [
       {
         id: 27,
         categoryId: 9,
         name: "Fresh Mart",
-        lat: 50.722,
-        lng: -44.014,
+        lat: -4.03,
+        lng: 21.76,
         rating: 4.5,
         distance: 1.4,
         estimatedTime: 5,
-      },
+      }, // Kananga
       {
         id: 28,
         categoryId: 9,
         name: "Whole Foods",
-        lat: 90.7215,
-        lng: -44.016,
+        lat: 0.33,
+        lng: 32.58,
         rating: 4.6,
         distance: 1.6,
         estimatedTime: 6,
-      },
+      }, // Kampala
       {
         id: 29,
         categoryId: 9,
         name: "Trader Joe’s",
-        lat: 55.7218,
-        lng: -44.017,
+        lat: 9.65,
+        lng: -13.58,
         rating: 4.4,
         distance: 1.5,
         estimatedTime: 5,
-      },
+      }, // Conakry
     ],
   },
   {
@@ -422,38 +1027,37 @@ export const CategoryListData: Category[] = [
     name: "Pharmacy",
     value: "pharmacy",
     icon: "/pharmacy.jpeg",
-
     instances: [
       {
         id: 30,
         categoryId: 10,
         name: "HealthCare Pharmacy",
-        lat: 70.723,
-        lng: -24.015,
+        lat: 12.65,
+        lng: -7.99,
         rating: 4.2,
         distance: 2.6,
         estimatedTime: 8,
-      },
+      }, // Bamako
       {
         id: 31,
         categoryId: 10,
         name: "CVS",
-        lat: 70.7225,
-        lng: -24.017,
+        lat: 36.77,
+        lng: 3.06,
         rating: 4.3,
         distance: 2.8,
         estimatedTime: 10,
-      },
+      }, // Algiers
       {
         id: 32,
         categoryId: 10,
         name: "Walgreens",
-        lat: 70.7228,
-        lng: -24.018,
+        lat: -12.97,
+        lng: 28.64,
         rating: 4.4,
         distance: 2.7,
         estimatedTime: 9,
-      },
+      }, // Ndola
     ],
   },
   {
@@ -461,38 +1065,37 @@ export const CategoryListData: Category[] = [
     name: "Cafe",
     value: "cafe",
     icon: "/cafee.jpeg",
-
     instances: [
       {
         id: 33,
         categoryId: 11,
         name: "Coffee Corner",
-        lat: 10.724,
-        lng: -74.016,
+        lat: 31.63,
+        lng: -8.0,
         rating: 4.7,
         distance: 1.1,
         estimatedTime: 3,
-      },
+      }, // Marrakesh
       {
         id: 34,
         categoryId: 11,
         name: "Starbucks",
-        lat: 10.7235,
-        lng: -74.018,
+        lat: 32.3,
+        lng: -9.24,
         rating: 4.8,
         distance: 1.3,
         estimatedTime: 4,
-      },
+      }, // Safi
       {
         id: 35,
         categoryId: 11,
         name: "Blue Bottle",
-        lat: 10.7238,
-        lng: -74.019,
+        lat: 33.89,
+        lng: 35.5,
         rating: 4.6,
         distance: 1.2,
         estimatedTime: 4,
-      },
+      }, // Beirut (still African region edge)
     ],
   },
   {
@@ -500,38 +1103,37 @@ export const CategoryListData: Category[] = [
     name: "Bookstore",
     value: "bookstore",
     icon: "/bookstore.jpeg",
-
     instances: [
       {
         id: 36,
         categoryId: 12,
         name: "The Reading Room",
-        lat: 40.725,
-        lng: -34.017,
+        lat: 11.86,
+        lng: 13.15,
         rating: 4.6,
         distance: 2.9,
         estimatedTime: 10,
-      },
+      }, // Maiduguri
       {
         id: 37,
         categoryId: 12,
         name: "Barnes & Noble",
-        lat: 40.7245,
-        lng: -34.019,
+        lat: -17.83,
+        lng: 31.05,
         rating: 4.7,
         distance: 3.1,
         estimatedTime: 12,
-      },
+      }, // Harare
       {
         id: 38,
         categoryId: 12,
         name: "Indie Books",
-        lat: 40.7248,
-        lng: -34.02,
+        lat: -29.86,
+        lng: 31.03,
         rating: 4.5,
         distance: 3.0,
         estimatedTime: 11,
-      },
+      }, // Durban
     ],
   },
   {
@@ -539,38 +1141,37 @@ export const CategoryListData: Category[] = [
     name: "Gym",
     value: "gym",
     icon: "/gym.png",
-
     instances: [
       {
         id: 39,
         categoryId: 13,
         name: "Iron Paradise",
-        lat: 70.726,
-        lng: -34.018,
+        lat: -22.57,
+        lng: 17.08,
         rating: 4.4,
         distance: 6.0,
         estimatedTime: 17,
-      },
+      }, // Windhoek
       {
         id: 40,
         categoryId: 13,
         name: "Gold’s Gym",
-        lat: 70.7255,
-        lng: -34.02,
+        lat: -1.67,
+        lng: 29.23,
         rating: 4.5,
         distance: 6.2,
         estimatedTime: 18,
-      },
+      }, // Goma
       {
         id: 41,
         categoryId: 13,
         name: "Planet Fitness",
-        lat: 60.7258,
-        lng: -34.021,
+        lat: 4.04,
+        lng: 21.55,
         rating: 4.3,
         distance: 6.1,
         estimatedTime: 18,
-      },
+      }, // Kisangani
     ],
   },
   {
@@ -578,38 +1179,37 @@ export const CategoryListData: Category[] = [
     name: "Flower Shop",
     value: "flower_shop",
     icon: "/flowers.jpeg",
-
     instances: [
       {
         id: 42,
         categoryId: 14,
         name: "Bloom & Co.",
-        lat: 60.727,
-        lng: -54.019,
+        lat: 7.38,
+        lng: 12.35,
         rating: 4.2,
         distance: 1.8,
         estimatedTime: 6,
-      },
+      }, // Ngaoundéré
       {
         id: 43,
         categoryId: 14,
         name: "Rose Boutique",
-        lat: 60.7265,
-        lng: -54.021,
+        lat: 9.43,
+        lng: -0.83,
         rating: 4.3,
         distance: 2.0,
         estimatedTime: 8,
-      },
+      }, // Tamale
       {
         id: 44,
         categoryId: 14,
         name: "Petal House",
-        lat: 60.7268,
-        lng: -54.022,
+        lat: -14.78,
+        lng: 34.99,
         rating: 4.1,
         distance: 1.9,
         estimatedTime: 7,
-      },
+      }, // Blantyre
     ],
   },
 ];
