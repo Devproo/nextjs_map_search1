@@ -1,5 +1,4 @@
 "use client";
-
 import { CategoryListData, Category, Instance } from "@/shared/Categories";
 import CategoryItem from "./CategoryItem";
 
@@ -18,16 +17,23 @@ export default function CategoryList({
   setSelectedCategory,
   setSelectedInstance,
 }: CategoryListProps) {
-  const filtered = CategoryListData.filter(
-    (cat) =>
-      cat.name.toLowerCase().includes(search.toLowerCase()) ||
-      cat.instances?.some((inst) =>
-        inst.name.toLowerCase().includes(search.toLowerCase())
-      )
-  );
+  // If a category or instance is selected, show all categories
+  // Otherwise, filter based on search input
+  const shouldShowAll =
+    selectedCategory !== null || setSelectedInstance !== null;
+
+  const filtered = shouldShowAll
+    ? CategoryListData
+    : CategoryListData.filter(
+        (cat) =>
+          cat.name.toLowerCase().includes(search.toLowerCase()) ||
+          cat.instances?.some((inst) =>
+            inst.name.toLowerCase().includes(search.toLowerCase())
+          )
+      );
 
   return (
-    <div className="relative flex flex-row gap-6 mb-5 overflow-x-auto scrollbar-hide">
+    <div className="relative flex flex-row  gap-6 mb-5 overflow-x-auto scrollbar-hide w-full">
       {filtered.map((cat: Category) => (
         <div key={cat.id} className="group flex-shrink-0">
           {/* Main category item */}
@@ -39,7 +45,7 @@ export default function CategoryList({
             }}
             className={
               selectedCategory?.id === cat.id
-                ? "ring-2 ring-blue-500 rounded"
+                ? "border-gray-500 hover:bg-gray-100 hover:text-gray-600 rounded"
                 : ""
             }
           >

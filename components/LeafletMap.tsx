@@ -1,12 +1,21 @@
 "use client";
-
-import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
+import {
+  MapContainer,
+  TileLayer,
+  Marker,
+  Popup,
+  useMap,
+  Polyline,
+  CircleMarker,
+} from "react-leaflet";
 import "leaflet/dist/leaflet.css";
+import "leaflet-routing-machine/dist/leaflet-routing-machine.css";
 import L from "leaflet";
-import { useEffect, useState } from "react";
-
+import { useEffect } from "react";
 import { Category, Instance } from "@/shared/Categories";
-import CategoryList from "./CategoryList";
+import CategoryList from "@/components/CategoryList";
+import SearchBar from "./SearchBar";
+import RoutingControl from "./routingcontrol";
 
 // Fix Leaflet default icon issue
 delete (L.Icon.Default.prototype as any)._getIconUrl;
@@ -16,11 +25,16 @@ L.Icon.Default.mergeOptions({
   shadowUrl: require("leaflet/dist/images/marker-shadow.png"),
 });
 
+// Props for LeafletMap
 interface LeafletMapProps {
-  categories?: Category[];
   userLocation?: { lat: number; lng: number };
-  selectedCategory?: Category | null;
-  selectedInstance?: Instance | null;
+  categories?: Category[];
+  search: string;
+  setSearch: React.Dispatch<React.SetStateAction<string>>;
+  selectedCategory: Category | null;
+  setSelectedCategory: React.Dispatch<React.SetStateAction<Category | null>>;
+  selectedInstance: Instance | null;
+  setSelectedInstance: React.Dispatch<React.SetStateAction<Instance | null>>;
 }
 
 function FitBounds({
@@ -39,7 +53,7 @@ function FitBounds({
     instances.forEach((i) => bounds.extend([i.lat, i.lng]));
 
     if (bounds.isValid()) {
-      map.fitBounds(bounds, { padding: [50, 50], maxZoom: 14 });
+      map.fitBounds(bounds, { padding: [50, 50], maxZoom: 10 });
     }
   }, [userLocation, instances, map]);
 
@@ -49,15 +63,13 @@ function FitBounds({
 export default function LeafletMap({
   userLocation,
   categories,
+  search,
+  setSearch,
+  selectedCategory,
+  setSelectedCategory,
+  selectedInstance,
+  setSelectedInstance,
 }: LeafletMapProps) {
-  const [search, setSearch] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState<Category | null>(
-    null
-  );
-  const [selectedInstance, setSelectedInstance] = useState<Instance | null>(
-    null
-  );
-
   // Decide which instances to show
   let visibleInstances: Instance[] = [];
   if (selectedInstance) {
@@ -68,15 +80,26 @@ export default function LeafletMap({
 
   return (
     <div className="h-full w-full relative">
-      {/* Category list overlay */}
-      <div className="absolute top-2 left-2 z-[1000]">
-        <CategoryList
-          search={search}
-          setSearch={setSearch}
-          selectedCategory={selectedCategory}
-          setSelectedCategory={setSelectedCategory}
-          setSelectedInstance={setSelectedInstance}
-        />
+      <div className=" absolute top-6 left-12 right-6 z-[500] flex flex-col md:flex-row justify-between gap-6">
+        {/* Search bar (left) */}
+        <div className="  w-full md:max-w-md">
+          <SearchBar
+            value={search}
+            onChange={setSearch}
+            onSearch={(value) => console.log("Search Submitted:", value)}
+          />
+        </div>
+
+        {/* Category list (right, stable) */}
+        <div className=" w-full md:min-w-[900px]">
+          <CategoryList
+            search={search}
+            setSearch={setSearch}
+            selectedCategory={selectedCategory}
+            setSelectedCategory={setSelectedCategory}
+            setSelectedInstance={setSelectedInstance}
+          />
+        </div>
       </div>
 
       <MapContainer
@@ -103,6 +126,26 @@ export default function LeafletMap({
           </Marker>
         )}
 
+        {/* Polyline (direct straight line) */}
+        {/* {userLocation && selectedInstance && (
+          <Polyline
+            positions={[
+              [userLocation.lat, userLocation.lng],
+              [selectedInstance.lat, selectedInstance.lng],
+            ]}
+            pathOptions={{ color: "red", dashArray: "5, 10" }}
+          />
+        )} */}
+        {/* Circle highlight */}
+        {/* {selectedInstance && (
+          <CircleMarker
+         
+            center={[selectedInstance.lat, selectedInstance.lng]}
+            radius={40}
+            pathOptions={{ color: "red", weight: 2 }}
+          />
+        )} */}
+
         {/* Instance markers */}
         {visibleInstances.map((instance) => (
           <Marker
@@ -113,7 +156,7 @@ export default function LeafletMap({
             }}
           >
             <Popup>
-              <div className="space-y-1">
+              <div className="space-y-1 overflow-auto ">
                 <h3 className="font-bold text-lg">{instance.name}</h3>
                 <p>⭐ {instance.rating ?? "No rating"}</p>
                 {instance.distance !== undefined && (
@@ -128,6 +171,11 @@ export default function LeafletMap({
         ))}
 
         <FitBounds userLocation={userLocation} instances={visibleInstances} />
+        {/* 🚗 Add routing here */}
+        <RoutingControl
+          userLocation={userLocation}
+          destination={selectedInstance ?? undefined}
+        />
       </MapContainer>
     </div>
   );

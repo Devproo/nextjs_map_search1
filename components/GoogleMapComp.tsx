@@ -7,16 +7,24 @@ import { Category, Instance } from "@/shared/Categories";
 
 interface GoogleMapProps {
   categories?: Category[];
-  selectedCategory?: Category | null;
-  selectedInstance?: Instance | null;
-
   userLocation?: { lat: number; lng: number };
+  search: string;
+  setSearch: React.Dispatch<React.SetStateAction<string>>;
+  selectedCategory: Category | null;
+  setSelectedCategory: React.Dispatch<React.SetStateAction<Category | null>>;
+  selectedInstance: Instance | null;
+  setSelectedInstance: React.Dispatch<React.SetStateAction<Instance | null>>;
 }
 
 export default function GoogleMapComp({
-  categories,
-
   userLocation,
+  categories,
+  search,
+  setSearch,
+  selectedCategory,
+  setSelectedCategory,
+  selectedInstance,
+  setSelectedInstance,
 }: GoogleMapProps) {
   const mapRef = useRef<google.maps.Map | null>(null);
 

@@ -1,35 +1,33 @@
-// mapView/page.tsx
 "use client";
 
 import { useMemo, useEffect, useState } from "react";
 import dynamic from "next/dynamic";
-import { Category, CategoryListData } from "@/shared/Categories";
-import { Instance } from "@/shared/Categories";
+import { Category, CategoryListData, Instance } from "@/shared/Categories";
 
 type MapLibrary = "leaflet" | "google";
 
-interface MapViewProps {
-  search?: string;
-  selectedCategory: Category | null;
-  selectedInstance: Instance | null;
-}
-
-export default function MapView({
-  search = "",
-  selectedCategory,
-  selectedInstance,
-}: MapViewProps) {
+export default function MapView() {
   const [mapLib, setMapLib] = useState<MapLibrary>("leaflet");
   const [userLocation, setUserLocation] = useState<{
     lat: number;
     lng: number;
   } | null>(null);
 
+  // Local state for search & selections
+  const [search, setSearch] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState<Category | null>(
+    null
+  );
+  const [selectedInstance, setSelectedInstance] = useState<Instance | null>(
+    null
+  );
+
   // Get user's location on mount
   useEffect(() => {
-    if (!navigator.geolocation)
-      return console.error("Geolocation not supported");
-
+    if (!navigator.geolocation) {
+      console.error("Geolocation not supported");
+      return;
+    }
     navigator.geolocation.getCurrentPosition(
       (pos) =>
         setUserLocation({
@@ -86,15 +84,23 @@ export default function MapView({
         <LeafletMap
           categories={filteredCategories}
           userLocation={userLocation ?? { lat: 0, lng: 0 }}
+          search={search}
+          setSearch={setSearch}
           selectedCategory={selectedCategory}
+          setSelectedCategory={setSelectedCategory}
           selectedInstance={selectedInstance}
+          setSelectedInstance={setSelectedInstance}
         />
       ) : (
         <GoogleMapComp
           categories={filteredCategories}
           userLocation={userLocation ?? { lat: 0, lng: 0 }}
+          search={search}
+          setSearch={setSearch}
           selectedCategory={selectedCategory}
+          setSelectedCategory={setSelectedCategory}
           selectedInstance={selectedInstance}
+          setSelectedInstance={setSelectedInstance}
         />
       )}
 
