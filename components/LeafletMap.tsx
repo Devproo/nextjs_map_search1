@@ -17,7 +17,7 @@ import CategoryList from "@/components/CategoryList";
 import SearchBar from "./SearchBar";
 import RoutingControl from "./routingcontrol";
 
-// Fix Leaflet default icon issue
+// Keep your original Leaflet default icon fix
 delete (L.Icon.Default.prototype as any)._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: require("leaflet/dist/images/marker-icon-2x.png"),
@@ -48,13 +48,11 @@ function FitBounds({
 
   useEffect(() => {
     const bounds = L.latLngBounds([]);
-
     if (userLocation) bounds.extend([userLocation.lat, userLocation.lng]);
     instances.forEach((i) => bounds.extend([i.lat, i.lng]));
 
-    if (bounds.isValid()) {
-      map.fitBounds(bounds, { padding: [50, 50], maxZoom: 10 });
-    }
+    if (bounds.isValid())
+      map.fitBounds(bounds, { padding: [50, 50], maxZoom: 16 });
   }, [userLocation, instances, map]);
 
   return null;
@@ -62,7 +60,7 @@ function FitBounds({
 
 export default function LeafletMap({
   userLocation,
-  categories,
+
   search,
   setSearch,
   selectedCategory,
@@ -70,28 +68,26 @@ export default function LeafletMap({
   selectedInstance,
   setSelectedInstance,
 }: LeafletMapProps) {
-  // Decide which instances to show
+  // Determine which instances to display
   let visibleInstances: Instance[] = [];
-  if (selectedInstance) {
-    visibleInstances = [selectedInstance];
-  } else if (selectedCategory) {
+  if (selectedInstance) visibleInstances = [selectedInstance];
+  else if (selectedCategory)
     visibleInstances = selectedCategory.instances ?? [];
-  }
 
   return (
     <div className="h-full w-full relative">
-      <div className=" absolute top-6 left-12 right-6 z-[500] flex flex-col md:flex-row justify-between gap-6">
-        {/* Search bar (left) */}
-        <div className="  w-full md:max-w-md">
+      <div className="absolute top-6 left-12 right-6 z-[500] flex flex-col md:flex-row justify-between gap-6">
+        {/* Search Bar */}
+        <div className="w-full md:max-w-md">
           <SearchBar
             value={search}
             onChange={setSearch}
-            onSearch={(value) => console.log("Search Submitted:", value)}
+            onSearch={(v) => console.log("Search Submitted:", v)}
           />
         </div>
 
-        {/* Category list (right, stable) */}
-        <div className=" w-full md:min-w-[900px]">
+        {/* Category List */}
+        <div className="w-full md:min-w-[900px]">
           <CategoryList
             search={search}
             setSearch={setSearch}
@@ -111,52 +107,40 @@ export default function LeafletMap({
           [90, 180],
         ]}
         className="h-full w-full"
+        preferCanvas={false}
       >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a>'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
 
-        {/* User marker */}
+        {/* User Marker */}
         {userLocation && (
-          <Marker position={[userLocation.lat, userLocation.lng]}>
-            <Popup>
+          <Marker
+            position={[userLocation.lat, userLocation.lng]}
+            zIndexOffset={1000}
+          >
+            <Popup closeButton autoClose={false} autoPan maxWidth={300}>
               <strong>Your Location</strong>
             </Popup>
           </Marker>
         )}
 
-        {/* Polyline (direct straight line) */}
-        {/* {userLocation && selectedInstance && (
-          <Polyline
-            positions={[
-              [userLocation.lat, userLocation.lng],
-              [selectedInstance.lat, selectedInstance.lng],
-            ]}
-            pathOptions={{ color: "red", dashArray: "5, 10" }}
-          />
-        )} */}
-        {/* Circle highlight */}
-        {/* {selectedInstance && (
-          <CircleMarker
-         
-            center={[selectedInstance.lat, selectedInstance.lng]}
-            radius={40}
-            pathOptions={{ color: "red", weight: 2 }}
-          />
-        )} */}
-
-        {/* Instance markers */}
-        {visibleInstances.map((instance) => (
+        {/* Instance Markers */}
+        {visibleInstances.map((instance, index) => (
           <Marker
             key={instance.id}
             position={[instance.lat, instance.lng]}
+            zIndexOffset={100 + index}
             eventHandlers={{
-              click: () => setSelectedInstance(instance),
+              click: (e) => {
+                e.originalEvent?.stopPropagation();
+                setSelectedInstance(instance);
+              },
             }}
           >
-            <Popup>
-              <div className="space-y-1 overflow-auto ">
+            <Popup closeButton autoClose={false} autoPan maxWidth={300}>
+              <div className="space-y-1 overflow-auto p-2 min-w-[200px]">
                 <h3 className="font-bold text-lg">{instance.name}</h3>
                 <p>⭐ {instance.rating ?? "No rating"}</p>
                 {instance.distance !== undefined && (
@@ -170,8 +154,10 @@ export default function LeafletMap({
           </Marker>
         ))}
 
+        {/* Fit Map Bounds */}
         <FitBounds userLocation={userLocation} instances={visibleInstances} />
-        {/* 🚗 Add routing here */}
+
+        {/* Routing Control */}
         <RoutingControl
           userLocation={userLocation}
           destination={selectedInstance ?? undefined}
