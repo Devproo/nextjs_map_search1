@@ -84,23 +84,17 @@ export default function MapView() {
         <LeafletMap
           categories={filteredCategories}
           userLocation={userLocation ?? { lat: 0, lng: 0 }}
-          search={search}
-          setSearch={setSearch}
-          selectedCategory={selectedCategory}
-          setSelectedCategory={setSelectedCategory}
-          selectedInstance={selectedInstance}
-          setSelectedInstance={setSelectedInstance}
         />
       ) : (
         <GoogleMapComp
           categories={filteredCategories}
           userLocation={userLocation ?? { lat: 0, lng: 0 }}
-          search={search}
-          setSearch={setSearch}
-          selectedCategory={selectedCategory}
-          setSelectedCategory={setSelectedCategory}
-          selectedInstance={selectedInstance}
-          setSelectedInstance={setSelectedInstance}
+          // search={search}
+          // setSearch={setSearch}
+          // selectedCategory={selectedCategory}
+          // setSelectedCategory={setSelectedCategory}
+          // selectedInstance={selectedInstance}
+          // setSelectedInstance={setSelectedInstance}
         />
       )}
 
